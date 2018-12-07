@@ -1,0 +1,63 @@
+if (isBuildModule) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        if (isBuildModule) {
+            applicationId "com.example.test.langpush"
+        }
+        minSdkVersion 17
+        targetSdkVersion 27
+        versionCode 101
+        versionName "1.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file("mihui.key")
+            storePassword "Fuyou_2015"
+            keyAlias "蜜惠"
+            keyPassword "Fuyou_2015"
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (isBuildModule) {
+                signingConfig signingConfigs.release
+            }
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (isBuildModule) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:design:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    //小米系统推送
+    api files('libs/MiPush_SDK_Client_3_6_9.jar')
+    //oppo系统推送
+    api files('libs/com.coloros.mcssdk.jar')
+    //华为手机系统推送
+    api 'com.huawei.android.hms:push:2.6.1.301'
+    //魅族手机推送
+    api 'com.meizu.flyme.internet:push-internal:3.6.+@aar'
+}
